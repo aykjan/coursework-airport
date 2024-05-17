@@ -1,0 +1,30 @@
+<h1>Билеты</h1>
+
+{{#if tickets.length}}
+{{#each tickets}}
+<div class="row">
+  <div class="col s6 offset-s3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{departureCity}} - {{arrivalCity}}</span>
+         <span class="card-title">Самолет: {{airplaneName}}</span>
+        <p class="price">{{price}}</p>
+      </div>
+      <div class="card-action actions">
+        <a href="tickets/{{id}}" target="_blank">Просмотр билета</a>
+        {{#if @root.isAuth}}
+          <a href="tickets/{{id}}/edit?allow=true">Редактировать</a>
+          <form action="/card/add" method="POST">
+            <input type="hidden" name="_csrf" value="{{@root.csrf}}">
+          <input type="hidden" name="id" value="{{id}}">
+          <button type="submit" class="btn btn-primary">Купить</button>
+          </form>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+{{else}}
+<p>Билетов пока нет</p>
+{{/if}}

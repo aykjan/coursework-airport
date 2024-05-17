@@ -1,0 +1,39 @@
+<h1>Редактировать билет из {{ticket.departureCity}}</h1>
+
+<form action="/tickets/edit" method="POST" class="ticket-form">
+  <div class="input-field">
+    <input id="departureCity" name="departureCity" type="text" class="validate" required
+      value="{{ticket.departureCity}}">
+    <label for="departureCity" class="active">Город отправления</label>
+    <span class="helper-text" data-error="Введите Город"></span>
+  </div>
+
+  <div class="input-field">
+    <input id="arrivalCity" name="arrivalCity" type="text" class="validate" required value="{{ticket.arrivalCity}}">
+    <label for="arrivalCity" class="active">Город прибытия</label>
+    <span class="helper-text" data-error="Введите Город"></span>
+  </div>
+
+  <div class="input-field">
+    <input id="airplaneName" name="airplaneName" type="text" class="validate" required value="{{ticket.airplaneName}}">
+    <label for="airplaneName" class="active">Название самолета</label>
+    <span class="helper-text" data-error="Введите Название самолета"></span>
+  </div>
+
+  <div class="input-field">
+    <input id="price" name="price" type="number" class="validate" required min="1">
+    <label for="price">Цена</label>
+    <span class="helper-text" data-error="Введите Цену"></span>
+  </div>
+
+  <input type="hidden" name="id" value="{{ticket.id}}">
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+
+  <button type="submit" class="btn btn-primary">Редактировать билет</button>
+</form>
+
+<form action="/tickets/remove" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+  <input type="hidden" name="id" value="{{ticket.id}}">
+  <button class="btn red">Удалить билет</button>
+</form>
