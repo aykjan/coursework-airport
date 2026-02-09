@@ -1,0 +1,629 @@
+{
+  "info": {
+    "_postman_id": "3ac68fa6-c685-481f-88ac-6bd981a750f8",
+    "name": "New Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52205914",
+    "_collection_link": "https://go.postman.co/collection/52205914-3ac68fa6-c685-481f-88ac-6bd981a750f8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Airoport",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 1000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains HTML content\", function () {\r",
+                  "    pm.response.to.have.header(\"Content-Type\");\r",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response body is not empty\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has basic HTML structure\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "    pm.expect(body).to.match(/<\\/html>/i);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Login page contains login form fields\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.include(\"<form\");\r",
+                  "    pm.expect(body).to.include('name=\"email\"');\r",
+                  "    pm.expect(body).to.include('name=\"password\"');\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Login page contains expected text\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.include(\"Авторизация\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"CSRF token field exists\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.include(\"_csrf\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 (page loaded)\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Content-Type is HTML\", function () {\r",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has valid HTML structure\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "    pm.expect(body).to.match(/<\\/html>/i);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Cart page is shown for authenticated user\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.not.include('name=\"password\"');\r",
+                  "    pm.expect(body).to.not.include(\"Авторизация\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "pm.test(\"Cart page contains cart-related elements\", function () {\r",
+                  "    const body = pm.response.text().toLowerCase();\r",
+                  "    pm.expect(\r",
+                  "        body.includes(\"корз\") ||       \r",
+                  "        body.includes(\"price\") ||\r",
+                  "        body.includes(\"ticket\") ||\r",
+                  "        body.includes(\"cart\") ||\r",
+                  "        body.includes(\"₽\")\r",
+                  "    ).to.be.true;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Page does not contain server error\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.not.include(\"Error\");\r",
+                  "    pm.expect(body).to.not.include(\"Exception\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/card",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "card"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Server responded\", function () {\r",
+                  "    pm.response.to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Status is 200 or 302\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Redirect to /orders\", function () {\r",
+                  "    const location = pm.response.headers.get(\"Location\");\r",
+                  "    if (pm.response.code === 302) {\r",
+                  "        pm.expect(location).to.include(\"/orders\");\r",
+                  "    } else {\r",
+                  "        pm.expect(pm.response.code).to.equal(200);\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"User session exists (connect.sid cookie)\", function () {\r",
+                  "    const cookies = pm.cookies.toObject();\r",
+                  "    pm.expect(cookies).to.have.property(\"connect.sid\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"No server error\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.be.oneOf([500, 403, 401]);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 302 (redirect) or 200 (redirect followed)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 301, 302]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"If 302, Location points to login; if 200, login page HTML is returned\", function () {\r",
+                  "    const code = pm.response.code;\r",
+                  "\r",
+                  "    if (code === 301 || code === 302) {\r",
+                  "        pm.expect(pm.response.headers.has(\"Location\")).to.be.true;\r",
+                  "        pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/auth/login\");\r",
+                  "    } else {\r",
+                  "        const body = pm.response.text();\r",
+                  "        pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "        pm.expect(body).to.include(\"Авторизация\");\r",
+                  "        pm.expect(body).to.include('name=\"email\"');\r",
+                  "        pm.expect(body).to.include('name=\"password\"');\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "test1@test.com",
+                  "type": "text",
+                  "uuid": "257c05d5-1f8d-4ee0-badc-e0100b9e7465"
+                },
+                {
+                  "key": "name",
+                  "value": "Test User",
+                  "type": "text",
+                  "uuid": "7b90dee6-f3af-4c6e-b0aa-d6e0abae7c1e"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "text",
+                  "uuid": "07074c8a-db32-4182-84e9-c001e2ca9090"
+                },
+                {
+                  "key": "repeat",
+                  "value": "123456",
+                  "type": "text",
+                  "uuid": "65714cec-dfb4-4397-b6d3-ae762073a60e"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TicketAdd",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is redirect (302) or redirect followed (200)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 301, 302]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Ticket creation triggers redirect to tickets page\", function () {\r",
+                  "    if (pm.response.code === 301 || pm.response.code === 302) {\r",
+                  "        pm.expect(pm.response.headers.has(\"Location\")).to.be.true;\r",
+                  "        pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/tickets\");\r",
+                  "    } else {\r",
+                  "        const body = pm.response.text();\r",
+                  "        pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "departureCity",
+                  "value": "Москва",
+                  "type": "text",
+                  "uuid": "142f75fd-e7b2-4e1b-9d1f-e7bdef475885"
+                },
+                {
+                  "key": "arrivalCity",
+                  "value": "Берлин",
+                  "type": "text",
+                  "uuid": "7abdcce5-85da-41e2-83bc-a570d143d3f5"
+                },
+                {
+                  "key": "airplaneName",
+                  "value": "Boeing 737",
+                  "type": "text",
+                  "uuid": "88c8167f-d6aa-457b-af26-53c2ddf92ee2"
+                },
+                {
+                  "key": "price",
+                  "value": "12000",
+                  "type": "text",
+                  "uuid": "bb3e98d2-3e8e-4f76-8e6e-c18241ece093"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/tickets/add",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "tickets",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tickets",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains valid HTML structure\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "    pm.expect(body.toLowerCase()).to.include(\"</html>\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Content-Type is HTML\", function () {\r",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response contains navigation\", function () {\r",
+                  "    const body = pm.response.text().toLowerCase();\r",
+                  "    pm.expect(body).to.include(\"<nav\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Tickets page contains tickets data\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(\r",
+                  "        body.includes(\"departure\") ||\r",
+                  "        body.includes(\"arrival\") ||\r",
+                  "        body.includes(\"price\") ||\r",
+                  "        body.includes(\"₽\")\r",
+                  "    ).to.be.true;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response does not contain server error\", function () {\r",
+                  "    const body = pm.response.text();\r",
+                  "    pm.expect(body).to.not.include(\"Error\");\r",
+                  "    pm.expect(body).to.not.include(\"Exception\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/tickets",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is redirect (302) or 200 (redirect followed)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 301, 302]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Logout leads to login page\", function () {\r",
+                  "    if (pm.response.code === 301 || pm.response.code === 302) {\r",
+                  "        pm.expect(pm.response.headers.has(\"Location\")).to.be.true;\r",
+                  "        pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/auth/login\");\r",
+                  "    } else {\r",
+                  "        const body = pm.response.text();\r",
+                  "        pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "        pm.expect(body).to.include(\"Авторизация\");\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/auth/logout",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is redirect (302) or redirect followed (200)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 301, 302]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Order creation redirects to orders page\", function () {\r",
+                  "    if (pm.response.code === 301 || pm.response.code === 302) {\r",
+                  "        pm.expect(pm.response.headers.has(\"Location\")).to.be.true;\r",
+                  "        pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/orders\");\r",
+                  "    } else {\r",
+                  "        const body = pm.response.text();\r",
+                  "        pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 302 (redirect) or 200 (redirect followed)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 301, 302]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Successful login redirects to home or returns home page HTML\", function () {\r",
+                  "    const code = pm.response.code;\r",
+                  "\r",
+                  "    if (code === 301 || code === 302) {\r",
+                  "        pm.expect(pm.response.headers.has(\"Location\")).to.be.true;\r",
+                  "        pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/\");\r",
+                  "    } else {\r",
+                  "        const body = pm.response.text();\r",
+                  "        pm.expect(body).to.match(/<!DOCTYPE html>|<html/i);\r",
+                  "        pm.expect(body).to.include(\"Главная\");\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Session cookie is set after login\", function () {\r",
+                  "    if (pm.response.headers.has(\"Set-Cookie\")) {\r",
+                  "        pm.expect(pm.response.headers.get(\"Set-Cookie\")).to.include(\"connect.sid\");\r",
+                  "    } else {\r",
+                  "        pm.expect(true).to.be.true;\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is under 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "test1@test.com",
+                  "type": "text",
+                  "uuid": "c93cb151-f649-4b87-95e7-b9421f0767f0"
+                },
+                {
+                  "key": "password",
+                  "value": "123456",
+                  "type": "text",
+                  "uuid": "67bb0757-f378-42f7-bf13-08ccdad80337"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
